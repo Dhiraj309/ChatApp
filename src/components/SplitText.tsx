@@ -34,7 +34,7 @@ const SplitText: React.FC<SplitTextProps> = ({
   threshold = 0.1,
   rootMargin = '-100px',
   tag = 'p',
-  textAlign = 'center',
+  textAlign = 'justify',
   onLetterAnimationComplete
 }) => {
   const ref = useRef<HTMLParagraphElement>(null);

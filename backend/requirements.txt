@@ -1,0 +1,8 @@
+fastapi
+uvicorn[standard]   # for running FastAPI apps
+sqlalchemy
+pydantic
+python-dotenv
+passlib[bcrypt]     # for password hashing
+requests
+pyjwt               # for JWT authentication

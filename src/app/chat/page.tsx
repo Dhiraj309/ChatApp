@@ -5,6 +5,7 @@ import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { ScrollArea } from "@/components/ui/scroll-area"
 import SplitText from "@/components/SplitText"
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 
 import { Menu } from "lucide-react"
 import { FaArrowUp, FaPlus } from "react-icons/fa"
@@ -12,6 +13,7 @@ import { FaArrowUp, FaPlus } from "react-icons/fa"
 import { ThemeProvider } from "next-themes";
 
 export default function Chat() {
+  // console.log("API Key:", process.env.NEXT_PUBLIC_API_KEY);
   const [collapsed, setCollapsed] = useState(true)
 
   // now messages can have ai-temp and animated flag
@@ -21,12 +23,16 @@ export default function Chat() {
 
   const [input, setInput] = useState("")
   const [loading, setLoading] = useState(false)
+  const apiKey = process.env.NEXT_PUBLIC_API_KEY;
 
   // 🔹 Call FastAPI backend (streaming)
   async function sendMessageToBackend(message: string) {
     const res = await fetch("http://localhost:8000/chat/", {
       method: "POST",
-      headers: { "Content-Type": "application/json" },
+      headers: { 
+        "Content-Type": "application/json",
+        "Authorization": `Bearer ${apiKey}`
+      },
       body: JSON.stringify({ message }),
     })
 
@@ -71,6 +77,16 @@ export default function Chat() {
     setLoading(false)
   }
 
+function getInitials(name?: string) {
+  if (!name) return "U";
+  const parts = name.trim().split(" ");
+  if (parts.length === 1) return parts[0][0].toUpperCase();
+  return (parts[0][0] + parts[1][0]).toUpperCase();
+}
+
+const storedName = typeof window !== "undefined" ? localStorage.getItem("userName") : null
+const userName = storedName ?? "User"  // fallback to "User"
+
   return (
     <ThemeProvider attribute="class" defaultTheme="dark" enableSystem>
         
@@ -88,8 +104,20 @@ export default function Chat() {
 
           {!collapsed && (
             <>
-              {/* <Button className="mb-2">+ New Chat</Button> */}
-              <Button className="mb-2">Reset Chat</Button>
+              <div className="flex flex-col">
+                {/* <Button className="mb-2">+ New Chat</Button> */}
+                <Button className="mb-2">Reset Chat</Button>
+              </div>
+
+              {/* Avatar pinned at bottom */}
+              <div className="mt-auto flex items-center gap-2">
+              <Avatar>
+                <AvatarImage src="https://github.com/shadcn.png" />
+                <AvatarFallback>{userName[0].toUpperCase()}</AvatarFallback>
+              </Avatar>
+              <span className="ml-2">{userName}</span>
+
+              </div>
             </>
           )}
         </aside>
@@ -104,20 +132,20 @@ export default function Chat() {
                     <div className="w-8 h-8 rounded-full bg-muted flex items-center justify-center text-xs font-semibold">
                       AI
                     </div>
-                    <div className="rounded-2xl px-4 py-2 bg-muted text-foreground max-w-lg">
+                    <div className="rounded-2xl px-4 py-2 bg-muted text-foreground max-w-lg text-justify">
                       {msg.animated ? (
                         <SplitText
                           text={msg.text}
-                          className="text-base"
-                          delay={100}         // controls typing speed
-                          duration={0.5}     // smooth animation
+                          className="text-base text-justify"
+                          delay={100}
+                          duration={0.5}
                           ease="power3.out"
-                          splitType="words"  // animate letters
+                          splitType="words"
                           from={{ opacity: 0, y: 10 }}
                           to={{ opacity: 1, y: 0 }}
                         />
                       ) : (
-                        msg.text // just plain streaming text
+                        <p className="text-justify">{msg.text}</p>
                       )}
                     </div>
                   </div>

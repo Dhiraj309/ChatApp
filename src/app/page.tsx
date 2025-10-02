@@ -40,7 +40,7 @@ export default function Page() {
           showCursor={true}
           cursorCharacter="|"
         />
-        <Button variant="outline" onClick = {() => router.push("/chat")}>Get Started</Button>
+        <Button variant="outline" onClick = {() => router.push("/login")}>Get Started</Button>
       </div>
     </main>
   );
