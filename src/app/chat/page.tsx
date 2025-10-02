@@ -27,14 +27,15 @@ export default function Chat() {
 
   // 🔹 Call FastAPI backend (streaming)
   async function sendMessageToBackend(message: string) {
-    const res = await fetch("http://localhost:8000/chat/", {
-      method: "POST",
-      headers: { 
-        "Content-Type": "application/json",
-        "Authorization": `Bearer ${apiKey}`
-      },
-      body: JSON.stringify({ message }),
-    })
+    const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/chat/`, {
+  method: "POST",
+  headers: { 
+    "Content-Type": "application/json",
+    "Authorization": `Bearer ${apiKey}`
+  },
+  body: JSON.stringify({ message }),
+})
+
 
     const reader = res.body?.getReader()
     const decoder = new TextDecoder("utf-8")
