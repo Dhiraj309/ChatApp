@@ -14,6 +14,7 @@ export function LoginForm({ className, ...props }: React.ComponentProps<"div">) 
   const [error, setError] = useState("")
 
   const router = useRouter()
+  const API_URL = process.env.NEXT_PUBLIC_API_URL;
 
   async function handleLogin(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault()
@@ -21,7 +22,7 @@ export function LoginForm({ className, ...props }: React.ComponentProps<"div">) 
     setError("")
 
     try {
-      const res = await fetch("http://localhost:8000/auth/login", {
+      const res = await fetch(`${API_URL}/auth/login`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -100,9 +101,14 @@ export function LoginForm({ className, ...props }: React.ComponentProps<"div">) 
             </div>
 
             {/* Submit */}
-            <Button type="submit" className="w-full" disabled={loading} onClick={() => router.push("/chat")}>
+            <Button 
+              type="submit" 
+              className="w-full" 
+              disabled={loading}
+            >
               {loading ? "Logging in..." : "Login"}
             </Button>
+
 
             {error && <p className="text-red-500 text-sm">{error}</p>}
           </div>

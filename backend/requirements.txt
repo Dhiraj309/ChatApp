@@ -6,3 +6,4 @@ python-dotenv
 passlib[bcrypt]     # for password hashing
 requests
 pyjwt               # for JWT authentication
+psycopg2-binary

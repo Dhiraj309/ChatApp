@@ -111,17 +111,39 @@ const userName = storedName ?? "User"  // fallback to "User"
               </div>
 
               {/* Avatar pinned at bottom */}
-              <div className="mt-auto flex items-center gap-2">
-              <Avatar>
-                <AvatarImage src="https://github.com/shadcn.png" />
-                <AvatarFallback>{userName[0].toUpperCase()}</AvatarFallback>
-              </Avatar>
-              <span className="ml-2">{userName}</span>
+                <div className="mt-auto flex flex-col items-center gap-2">
+                  <div className="flex items-center gap-2">
+                    <Avatar>
+                      <AvatarImage src="https://github.com/shadcn.png" />
+                      <AvatarFallback>{getInitials(userName)}</AvatarFallback>
+                    </Avatar>
+                    <span className="ml-2">{userName}</span>
+                  </div>
 
-              </div>
+                  {/* Logout button */}
+                  <Button
+                    variant="outline"
+                    size="sm"
+                    className="mt-2"
+                    onClick={() => {
+                      // ✅ Clear all user session info
+                      localStorage.removeItem("token");
+                      localStorage.removeItem("userName"); 
+
+                      // Optional: clear messages
+                      setMessages([]);
+
+                      // Redirect to login
+                      window.location.href = "/login";
+                    }}
+                  >
+                    Logout
+                  </Button>
+                </div>
             </>
           )}
         </aside>
+
 
         {/* Chat Area */}
         <div className="flex-1 flex flex-col">
@@ -189,7 +211,7 @@ const userName = storedName ?? "User"  // fallback to "User"
                   const formData = new FormData()
                   formData.append("file", file)
 
-                  const res = await fetch("http://localhost:8000/chat/upload", {
+                  const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/upload`, {
                     method: "POST",
                     body: formData,
                   })

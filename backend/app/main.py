@@ -7,10 +7,12 @@ import os
 load_dotenv()
 API_KEY = os.getenv("API_KEY")
 
+FRONTEND_URL = os.getenv("FRONTEND_URL")
+
 app = FastAPI()
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["http://localhost:3000", "http://127.0.0.1:3000"],
+    allow_origins=["*"],
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
@@ -51,4 +53,11 @@ app.include_router(
 def root():
     return {
         "message": "Backend Is Running!"
+
+    }
+
+@app.get("/health")
+def health():
+    return {
+        "status": "Ok"
     }
