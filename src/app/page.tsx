@@ -5,12 +5,13 @@ import TextType from "@/components/TextType"
 import LightRays from "@/components/LightRays"
 import { Button } from "@/components/ui/button"
 import { useRouter } from "next/navigation"
+import Prism from "@/components/Prism"
 
 export default function Page() {
   const router = useRouter()
   return (
-    <main className="flex min-h-screen bg-background bg-black items-center justify-center">
-      <div className="absolute inset-0">
+    <main className="flex min-h-screen bg-black items-center justify-center">
+      {/* <div className="absolute inset-0">
           <LightRays
             raysOrigin="top-center"
             raysColor="#00ffff"
@@ -23,6 +24,19 @@ export default function Page() {
             distortion={0.05}
             className="custom-rays"
           />
+      </div> */}
+      <div className="absolute inset-0">
+        <Prism
+          animationType="rotate"
+          timeScale={0.5}
+          height={3.5}
+          baseWidth={5.5}
+          scale={3.6}
+          hueShift={0}
+          colorFrequency={1}
+          noise={0.1}
+          glow={1}
+        />
       </div>
       <div className="relative z-10 text-center flex flex-col items-center gap-6">
         <TextType className="text-2xl font-bold text-white" 

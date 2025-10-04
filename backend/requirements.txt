@@ -1,9 +1,13 @@
 fastapi
-uvicorn[standard]   # for running FastAPI apps
-sqlalchemy
+uvicorn[standard]
+SQLAlchemy
 pydantic
 python-dotenv
-passlib[bcrypt]     # for password hashing
+passlib[bcrypt]==1.7.4
 requests
-pyjwt               # for JWT authentication
+PyJWT
 psycopg2-binary
+PyPDF2
+python-docx
+python-multipart
+bcrypt==3.2.2
