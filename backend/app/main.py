@@ -18,23 +18,29 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
+
 # @app.middleware("http")
 # async def verify_api_key(request: Request, call_next):
+#     if request.method == "OPTIONS":  # skip preflight
+#         return await call_next(request)
+    
 #     if request.url.path.startswith("/chat"):  # protect chat endpoints
 #         auth = request.headers.get("Authorization")
-#         if not auth or auth != f"{API_KEY}":
+#         if not auth or auth != f"Bearer {API_KEY}":
 #             raise HTTPException(status_code=401, detail="Unauthorized")
 #     return await call_next(request)
 
 @app.middleware("http")
 async def verify_api_key(request: Request, call_next):
-    if request.method == "OPTIONS":  # skip preflight
+    if request.method == "OPTIONS":
         return await call_next(request)
-    
-    if request.url.path.startswith("/chat"):  # protect chat endpoints
+
+    # Only protect chat endpoints, skip /chat/upload
+    if request.url.path.startswith("/chat") and request.url.path != "/chat/upload":
         auth = request.headers.get("Authorization")
         if not auth or auth != f"Bearer {API_KEY}":
             raise HTTPException(status_code=401, detail="Unauthorized")
+
     return await call_next(request)
 
 app.include_router(
