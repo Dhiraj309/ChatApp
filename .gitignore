@@ -33,4 +33,5 @@ coverage/
 .vercel/
 
 # Backend folder (ignore completely)
-backend/
+.env
+.env.local

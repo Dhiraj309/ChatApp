@@ -1,5 +1,5 @@
 from fastapi import FastAPI, Request, HTTPException
-from app.routers import chat, auth
+from app.routers import chat, auth, image
 from fastapi.middleware.cors import CORSMiddleware
 from dotenv import load_dotenv
 import os
@@ -54,6 +54,12 @@ app.include_router(
     auth.router,
     prefix="/auth",
     tags=["auth"]
+)
+
+app.include_router(
+    image.router,
+    prefix="/image",
+    tags=["ImageGeni"]
 )
 
 @app.get("/")

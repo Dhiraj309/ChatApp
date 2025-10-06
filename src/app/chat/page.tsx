@@ -151,7 +151,7 @@ export default function Chat() {
                     <AvatarFallback>{getInitials(userName)}</AvatarFallback>
                   </Avatar>
                   <span className="ml-2">{userName}</span>
-                </div>
+                </div> 
 
                 <Button
                   variant="outline"
@@ -181,7 +181,7 @@ export default function Chat() {
                     <div className="w-8 h-8 rounded-full bg-muted flex items-center justify-center text-xs font-semibold">AI</div>
                     <div className="rounded-2xl px-4 py-2 bg-muted text-foreground max-w-lg text-justify">
                       {msg.animated ? (
-                        <SplitText text={msg.text} className="text-base text-justify" delay={100} duration={0.5} ease="power3.out" splitType="words" from={{ opacity: 0, y: 10 }} to={{ opacity: 1, y: 0 }} />
+                        <SplitText text={msg.text} className="text-base text-justify" delay={100} duration={1} ease="power3.out" splitType="lines" from={{ opacity: 0, y: 10 }} to={{ opacity: 1, y: 0 }} />
                       ) : (
                         <p className="text-justify">{msg.text}</p>
                       )}
